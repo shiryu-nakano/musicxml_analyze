@@ -28,8 +28,8 @@ def decode(file_name):
     division = (data[12] << 8) + data[13]
     offset += 6
 
-    note = np.zeros((256, 3), dtype = np.int)
-    score = np.empty(0, dtype = np.int)
+    note = np.zeros((256, 3), dtype = int)
+    score = np.empty(0, dtype = int)
     end_of_track = 0
     i = 0
 
