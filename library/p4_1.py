@@ -3,7 +3,7 @@ sys.path.append('/Users/snakano/Documents/musicxml_analyze')
 
 import numpy as np
 from wave_file import wave_write_16bit_mono
-#from MidiAnalyzer import MIDI_file
+from MidiAnalyzer import MIDI_file
 from MidiAnalyzer.MIDI_file import decode
 
 def sine_wave(fs, note_number, velocity, gate):
@@ -21,7 +21,7 @@ def sine_wave(fs, note_number, velocity, gate):
     s *= gain
     return s
 
-division, tempo, number_of_track, end_of_track, score = decode('/Users/snakano/Documents/musicxml_analyze/Dat/canon.mid')
+division, tempo, number_of_track, end_of_track, score = decode('Dat/canon.mid')
 
 tempo = 60 / (tempo / 1000000)
 number_of_track = int(number_of_track - 1)
@@ -53,4 +53,4 @@ master_volume = 0.5
 s_master /= np.max(np.abs(s_master))
 s_master *= master_volume
 
-wave_write_16bit_mono(fs, s_master.copy(), '/Users/snakano/Documents/musicxml_analyze/Temp/p4_1(output).wav')
+wave_write_16bit_mono(fs, s_master.copy(), 'Temp/p4_1(output).wav')

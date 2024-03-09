@@ -4,8 +4,9 @@ from mido import MidiFile
 
 def import_midi(midi_path:str)-> MidiFile:
     """
-    指定されたパスからMIDIファイルを読み込み、Mido MidiFileオブジェクトを返す
-    
+    指定されたパスからMIDIファイルを読み込み、Mido.MidiFileオブジェクトを返す
+    外部の変更が考えられるのでプログラム内部ではMidiFileとしてのみ扱いたい
+
     Parameters:
     midi_path (str): 読み込むMIDIファイルのパス
 
@@ -18,12 +19,7 @@ def import_midi(midi_path:str)-> MidiFile:
 
 
 if __name__ == '__main__':
-    midi_path="/Users/snakano/Documents/musicxml_analyze/Dat/canon.mid"
+    midi_path="Dat/canon.mid"
     midi=import_midi(midi_path)
     print(type(midi))
     print(midi)
-
-# for i, track in enumerate(midi.tracks):
-#     print('Track {}: {}'.format(i, track.name))
-#     for msg in track:
-#         print(msg)
