@@ -22,7 +22,6 @@ def sine_wave(fs, note_number, velocity, gate):
     return s
 
 division, tempo, number_of_track, end_of_track, score = decode('Dat/canon.mid')
-
 tempo = 60 / (tempo / 1000000)
 number_of_track = int(number_of_track - 1)
 end_of_track = (end_of_track / division) * (60 / tempo)
@@ -50,7 +49,13 @@ for j in range(number_of_track):
         s_master[n] += track[n, j]
 
 master_volume = 0.5
-s_master /= np.max(np.abs(s_master))
+max_abs_value = np.max(np.abs(s_master))
+if max_abs_value == 0:
+    print("Maximum value is zero, cannot normalize.")
+    s_master = np.zeros_like(s_master)  # Create an array of zeros if max is 0 to avoid division by zero
+else:
+    s_master /= max_abs_value  
 s_master *= master_volume
 
-wave_write_16bit_mono(fs, s_master.copy(), 'Temp/p4_1(output).wav')
+#wave_write_16bit_mono(fs, s_master.copy(), 'Temp/p4_1(output)2.wav')
+wave_write_16bit_mono(fs, s_master, 'Temp/p4_1(output)2.wav')

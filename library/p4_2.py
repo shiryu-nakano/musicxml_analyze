@@ -1,10 +1,13 @@
+import sys
+sys.path.append('/Users/snakano/Documents/musicxml_analyze')
+
 import numpy as np
 from wave_file import wave_write_16bit_mono
-import MIDI_file
+from MidiAnalyzer import MIDI_file
 from musical_instruments import pipe_organ
 from sound_effects import reverb
 
-division, tempo, number_of_track, end_of_track, score = MIDI_file.decode('canon.mid')
+division, tempo, number_of_track, end_of_track, score = MIDI_file.decode('Dat/canon.mid')
 
 tempo = 60 / (tempo / 1000000)
 number_of_track = int(number_of_track - 1)
@@ -40,4 +43,4 @@ master_volume = 0.5
 s_master /= np.max(np.abs(s_master))
 s_master *= master_volume
 
-wave_write_16bit_mono(fs, s_master.copy(), 'p4_2(output).wav')
+wave_write_16bit_mono(fs, s_master.copy(), 'Temp/p4_2(output).wav')
