@@ -13,9 +13,11 @@ def wave_read_16bit_mono(file_name):
     return fs, s
 
 def wave_write_16bit_mono(fs, s, file_name):
+    s = np.nan_to_num(s)  # Replace NaNs with zero and Infs with finite numbers
     length_of_s = len(s)
     for n in range(length_of_s):
         s[n] = (s[n] + 1) / 2 * 65536
+        s[n] = np.clip(int(s[n] + 0.5), 0, 65535)  # Ensuring the value is within valid range
         s[n] = int(s[n] + 0.5)
         if s[n] > 65535:
             s[n] = 65535
@@ -42,6 +44,8 @@ def wave_read_16bit_stereo(file_name):
     return fs, s
 
 def wave_write_16bit_stereo(fs, s, file_name):
+    s = np.nan_to_num(s)  # Replace NaNs with zero and Infs with finite numbers
+    length_of_s = len(s)
     length_of_s = len(s)
     for n in range(length_of_s):
         s[n, 0] = (s[n, 0] + 1) / 2 * 65536
@@ -50,6 +54,7 @@ def wave_write_16bit_stereo(fs, s, file_name):
             s[n, 0] = 65535
         elif s[n, 0] < 0:
             s[n, 0] = 0
+        s[n, 0] = np.clip(int(s[n, 0] + 0.5), 0, 65535)  # Ensuring the value is within valid range
 
         s[n, 0] -= 32768
 
@@ -59,7 +64,7 @@ def wave_write_16bit_stereo(fs, s, file_name):
             s[n, 1] = 65535
         elif s[n, 1] < 0:
             s[n, 1] = 0
-
+        s[n, 1] = np.clip(int(s[n, 1] + 0.5), 0, 65535)  # Ensuring the value is within valid range
         s[n, 1] -= 32768
 
     wavfile.write(file_name, fs, s.astype(np.int16))

@@ -6,16 +6,19 @@ def get_int_from_bytes(byte_array):
 
 def parse_header(chunk_data):
     """ヘッダチャンクの解析"""
-    if chunk_data[0:4] != bytes([0x4D, 0x54, 0x68, 0x64]):
+    if chunk_data[0:4] != b'MThd':
         raise ValueError("Invalid SMF header chunk")
     header_size = get_int_from_bytes(chunk_data[4:8])
-    header = {
+    format_type = get_int_from_bytes(chunk_data[8:10])
+    track_count = get_int_from_bytes(chunk_data[10:12])
+    resolution = get_int_from_bytes(chunk_data[12:14])
+    return {
         'size': header_size,
-        'format': chunk_data[8],
-        'trackcount': get_int_from_bytes(chunk_data[10:12]),
-        'resolution': get_int_from_bytes(chunk_data[12:14]),
+        'format': format_type,
+        'trackcount': track_count,
+        'resolution': resolution
     }
-    return header
+
 
 def parse_tracks(data, start_offset):
     """トラックチャンクの解析"""
@@ -94,15 +97,22 @@ if __name__ =="__main__":
     header, tracks=read_midi_file("Dat/canon.mid")
 
     print(type(header))
-    print(header)
+    print(header,"\n")
+    
     print(type(tracks))
     print(tracks)
     # Example usage with your provided track data
-    
 
-    for idx, track_data in enumerate(tracks):
-       print(f"Track {idx+1}:")
+    # track の格納状況を見る
+    print("Length of \"tarck\" :",len(tracks))
+
+    """
+    for idx, track_data in enumerate(tracks): print(f"Track {idx+1}:")
        events = parse_track_events(track_data)
        for event in events:
            print(event)
        print("---------")
+    """
+    # 修正後のMIDIファイルを読み込んでヘッダ情報を表示する
+    #modified_header, modified_tracks = read_midi_file("Dat/canon2.mid")
+    #print(modified_header)

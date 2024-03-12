@@ -32,6 +32,7 @@ def decode(file_name):
     score = np.empty(0, dtype = int)
     end_of_track = 0
     i = 0
+    tempo = 0  # Initialize tempo in case it's not set
 
     for j in range(number_of_track):
         offset += 4 # MTrk
@@ -84,6 +85,9 @@ def decode(file_name):
                 type = 8
                 channel = data[offset] & 0x0F
                 offset += 1
+
+            if type is None:
+                raise ValueError(f"Unhandled MIDI event type at offset {offset}")
 
             if type == 16:
                 if data[offset] == 0x51:
