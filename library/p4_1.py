@@ -3,8 +3,8 @@ sys.path.append('/Users/snakano/Documents/musicxml_analyze')
 
 import numpy as np
 from wave_file import wave_write_16bit_mono
-from MidiAnalyzer import MIDI_file
-from MidiAnalyzer.MIDI_file import decode
+from library import MIDI_file
+from library.MIDI_file import decode
 
 def sine_wave(fs, note_number, velocity, gate):
     length_of_s = int(fs * gate)

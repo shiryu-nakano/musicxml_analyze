@@ -5,7 +5,7 @@ sys.path.append('/Users/snakano/Documents/musicxml_analyze')
 
 import numpy as np
 
-from MidiAnalyzer import MIDI_file
+from library import MIDI_file
 
 def import_midi(midi_path):
     """

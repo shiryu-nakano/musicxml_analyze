@@ -2,7 +2,7 @@
 import sys
 sys.path.append('/Users/snakano/Documents/musicxml_analyze')
 
-from MidiAnalyzer.midi_reader_h import read_midi_file
+from library.midi_reader_h import read_midi_file
 
 def modify_note_on_events(track_data):
     modified_data = bytearray()

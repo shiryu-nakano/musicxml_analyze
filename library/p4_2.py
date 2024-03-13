@@ -3,7 +3,7 @@ sys.path.append('/Users/snakano/Documents/musicxml_analyze')
 
 import numpy as np
 from wave_file import wave_write_16bit_mono
-from MidiAnalyzer import MIDI_file
+from library import MIDI_file
 from musical_instruments import pipe_organ
 from sound_effects import reverb
 
