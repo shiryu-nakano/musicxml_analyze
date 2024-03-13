@@ -11,7 +11,7 @@ def import_midi(midi_path:str)-> MidiFile:
     midi_path (str): 読み込むMIDIファイルのパス
 
     Returns:
-    mido.MidiFile: 読み込まれたMIDIファイルのデータ
+    mido.MidiFile: 読み込んだMIDIファイルのデータ MidiFileのインスタンス
     """
     midi = mido.MidiFile(midi_path)
     return midi
