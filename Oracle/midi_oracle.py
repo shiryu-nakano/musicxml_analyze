@@ -1,7 +1,7 @@
 import sys
 sys.path.append('/Users/snakano/Documents/musicxml_analyze')
 import mido
-from mido import MidiFile, MidiTrack, Message
+from mido import MidiFile, MidiTrack, Message, MetaMessage
 from typing import List, Tuple
 
 
@@ -25,12 +25,24 @@ class MidiOracle:
         self.track_infos = self.analyze_tracks()
         self.tempo_changes = self.get_tempo_changes()
 
-    def analyze_tracks(self) -> List[List[Message]]:
-        """トラックを解析し、各トラックのMIDIメッセージのリストを返す"""
+    def analyze_tracks(self) -> List[dict[str, List[Message]]]:
+        """トラックを解析し、各トラックのMIDIメッセージとメタイベントのリストを返す"""
         track_infos = []
         for track in self.tracks:
-            track_msgs = [msg for msg in track if isinstance(msg, Message)]
-            track_infos.append(track_msgs)
+            track_data = {
+                'messages': [],
+                'meta_messages': [],
+                'sysex_messages': []
+            }
+            for msg in track:
+                if isinstance(msg, Message):
+                    if msg.type == 'sysex':
+                        track_data['sysex_messages'].append(msg)
+                    else:
+                        track_data['messages'].append(msg)
+                elif isinstance(msg, MetaMessage):
+                    track_data['meta_messages'].append(msg)
+            track_infos.append(track_data)
         return track_infos
 
     def get_tempo_changes(self) -> List[Tuple[int, int]]:
@@ -57,9 +69,9 @@ class MidiOracle:
 
 
 if __name__ =="__main__":
-    # MidiOracle クラスの定義を前提とします
 
-    # 使用するMIDIファイルを指定
+
+
     midi_file_path = 'Dat/canon.mid'
 
     # Midoを使ってMIDIファイルを読み込む
@@ -68,10 +80,20 @@ if __name__ =="__main__":
     # MidiOracle クラスのインスタンスを作成
     oracle = MidiOracle(midi_file)
     print("Imported MIDI file:",midi_file_path)
+
     # トラック情報の取得と出力
     print("トラック情報:")
-    for i, track_msgs in enumerate(oracle.track_infos):
-        print(f"トラック {i}: メッセージ数 {len(track_msgs)}")
+    for i, track_data in enumerate(oracle.track_infos):
+        print(f"\nトラック {i}: メッセージ数 {len(track_data)}")
+        for msg in track_data['messages']:
+            print(f"    {msg}")
+        print(f"  メタメッセージ数: {len(track_data['meta_messages'])}")
+        for meta_msg in track_data['meta_messages']:
+            print(f"    {meta_msg}")
+        print(f"  SysExメッセージ数: {len(track_data['sysex_messages'])}")
+        for sysex_msg in track_data['sysex_messages']:
+            print(f"    {sysex_msg}")
+ 
     print("\n")
 
     # テンポ変更イベントの取得と出力
