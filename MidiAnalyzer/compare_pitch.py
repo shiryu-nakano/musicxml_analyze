@@ -6,7 +6,7 @@ from Oracle.midi_oracle import MidiOracle
 
 
 """
-開発中．まずは音高が異なる場合に
+開発中．まずは音高が異なる場合に画面出力してみる
 """
 def compare_note_events(oracle1: MidiOracle, oracle2: MidiOracle):
     
@@ -22,8 +22,10 @@ def compare_note_events(oracle1: MidiOracle, oracle2: MidiOracle):
             if diff_notes:
                 print(f"タイミング {time} で異なる音高のノートが存在します。差異: {diff_notes}")
 
+
 def extract_note_events(oracle: MidiOracle) -> dict:
-    """MIDIデータを解析する．イベントを検出して格納する
+    """MIDIデータを解析する
+    イベントを検出して格納する
 
     今後，絶対時間での計算なども拡張予定
     

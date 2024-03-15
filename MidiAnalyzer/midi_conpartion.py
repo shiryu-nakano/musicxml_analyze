@@ -4,6 +4,9 @@ import mido
 from mido import MidiFile
 from Oracle.midi_oracle import MidiOracle
 
+#こっちはまだ動きません！
+#実行可能ですが，想定した出力結果は得られません
+
 def compare_tracks(track1: dict, track2: dict):
     # イベントの種類ごとに比較
     for event_type in ['messages', 'meta_messages', 'sysex_messages']:
