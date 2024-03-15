@@ -16,6 +16,7 @@ midi_path2="dat/canon2.mid"
 midi_file2:MidiFile=midi_importer.import_midi(midi_path2)
 
 #Midiデータを分割して持つインスタンスの作成
+#読み込んだMIDIごとに作成する
 midi_oracle= MidiOracle(midi_file)
 midi_oracle2= MidiOracle(midi_file2)
 
