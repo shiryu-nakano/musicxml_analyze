@@ -9,8 +9,7 @@ class MidiOracle:
     """
     MidiOracleクラス
 
-    Note:
-        受け取ったMidiFileの情報を分割して持つ
+    Note:[] 受け取ったMidiFileの情報を分割して持つ
     Attributes
         midi (MidiFile): MidiFileオブジェクト
         ticks_per_beat (int): 1拍あたりのTick数
@@ -65,12 +64,21 @@ class MidiOracle:
                     break
             track_names.append(name)
         return track_names
+    
+    def get_note_on_events(self) -> List[Tuple[int, int, int]]:
+        """各トラックのノートオンイベントを抽出し、(track_index, note, time)のリストを返す"""
+        note_on_events = []
+        for track_index, track in enumerate(self.track_infos):
+            time_accumulator = 0  # 絶対時間の計算用
+            for msg in track['messages']:
+                if msg.type == 'note_on' and msg.velocity > 0:
+                    note_on_events.append((track_index, msg.note, time_accumulator + msg.time))
+                time_accumulator += msg.time
+        return note_on_events
 
 
 
 if __name__ =="__main__":
-
-
 
     midi_file_path = 'Dat/canon.mid'
 
